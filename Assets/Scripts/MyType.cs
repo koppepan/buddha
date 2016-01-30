@@ -22,21 +22,55 @@ public static class MyType
 
 public struct GameData
 {
-	public TimeSpan TimeLimit;
+	public float TimeLimit;
 	public float HalfPercentage;
 	public float BuddhaPercentage;
 
-	public GameData(float TimeLimit, float HalfPercentage, float BuddhaPercentage)
-	{
-		this.TimeLimit = TimeSpan.FromSeconds(TimeLimit);
-		this.HalfPercentage = HalfPercentage;
-		this.BuddhaPercentage = BuddhaPercentage;
-	}
+	public int Day;
+
+	public float StomachStartValue;
+	public float HotokeStartValue;
+	public float FaithStartValue;
+
+	public float StomachMaxValue;
+	public float HotokeMaxValue;
+	public float FaithMaxValue;
+
+	public float StomachLostTime;
+
+	public float StomacCoolTime;
+	public float TrainingCoolTime;
+	public float PreachingCoolTime;
+
+	public float GainStomacValue;
+	public float GainHotokeValue;
+	public float GainFaithValue;
+
 	public GameData(Dictionary<string, object> data)
 	{
-		this.TimeLimit = TimeSpan.FromSeconds (MyType.ObjectToFloat (data ["TimeLimit"]));
+		this.TimeLimit = MyType.ObjectToFloat (data ["TimeLimit"]);
 		this.HalfPercentage = MyType.ObjectToFloat (data ["HalfPercentage"]);
 		this.BuddhaPercentage = MyType.ObjectToFloat (data ["BuddhaPercentage"]);
+
+		this.Day = (int)(long)data ["Day"];
+
+		this.StomachStartValue = MyType.ObjectToFloat (data ["StomacStartValue"]);
+		this.HotokeStartValue = MyType.ObjectToFloat (data ["HotokeStartValue"]);
+		this.FaithStartValue = MyType.ObjectToFloat (data ["FaithStartValue"]);
+
+		this.StomachMaxValue = MyType.ObjectToFloat (data ["StomacMaxValue"]);
+		this.HotokeMaxValue = MyType.ObjectToFloat (data ["HotokeMaxValue"]);
+		this.FaithMaxValue = MyType.ObjectToFloat (data ["FaithMaxValue"]);
+
+		this.StomachLostTime = MyType.ObjectToFloat (data ["StomachLostTime"]);
+
+		this.StomacCoolTime = MyType.ObjectToFloat (data ["StomacCoolTime"]);
+		this.TrainingCoolTime = MyType.ObjectToFloat (data ["ShugyoCoolTime"]);
+		this.PreachingCoolTime = MyType.ObjectToFloat (data ["SeppooCoolTime"]);
+
+		this.GainStomacValue = MyType.ObjectToFloat (data ["GainStomacValue"]);
+		this.GainHotokeValue = MyType.ObjectToFloat (data ["GainHotokeValue"]);
+		this.GainFaithValue = MyType.ObjectToFloat (data ["GainFaithValue"]);
 	}
 };
 
