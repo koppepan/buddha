@@ -18,4 +18,9 @@ public class TitleController : MonoBehaviour
 		text.color = new Color (0, 0, 0, 1 - Mathf.PingPong (Time.time, 0.5f));
 	}
 
+	public void SetName(string name)
+	{
+		MainSystem.Instance.PlayerName = name;
+	}
+
 }

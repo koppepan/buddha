@@ -33,13 +33,20 @@ public class GameController : MonoBehaviour
 		get;
 		set;
 	}
+	public string PlayerName {
+		get;
+		set;
+	}
 
 	void Awake()
 	{
-		var textAsset = Resources.Load ("GameData") as TextAsset;
-		var data = MiniJSON.Json.Deserialize (textAsset.text) as Dictionary<string, object>;
+		{
+			var textAsset = Resources.Load ("GameData") as TextAsset;
+			var data = MiniJSON.Json.Deserialize (textAsset.text) as Dictionary<string, object>;
 
-		gameData = new GameData (data);
+			gameData = new GameData (data);
+		}
+
 
 		timeCount = 0;
 		BuddhaWay = BuddhaState.human;

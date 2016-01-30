@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 public static class MyType
 {
@@ -74,3 +75,19 @@ public struct GameData
 	}
 };
 
+public struct BuddhistNames
+{
+	public List<string> ingouList;
+	public List<string> dougouList;
+	public List<string> igou_maleList;
+	public List<string> igou_femaleList;
+
+
+	public BuddhistNames(Dictionary<string, object> data)
+	{
+		ingouList = (data ["ingou"] as List<object>).Select (x => (string)x).ToList ();
+		dougouList = (data ["dougou"] as List<object>).Select (x => (string)x).ToList ();
+		igou_maleList = (data ["igou_male"] as List<object>).Select (x => (string)x).ToList ();
+		igou_femaleList = (data ["igou_female"] as List<object>).Select (x => (string)x).ToList ();
+	}
+};
