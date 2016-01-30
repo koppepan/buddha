@@ -134,7 +134,8 @@ public class GameController : MonoBehaviour
 
 	void DecreaseUpdate()
 	{
-	        player.Stomac -= (gameData.StomachMaxValue / gameData.StomachLostTime / 60f) * player.GetDecreaseStomacFactor();
+        print(player.GetDecreaseStomacFactor());
+        player.Stomac -= (gameData.StomachMaxValue / gameData.StomachLostTime / 60f) * player.GetDecreaseStomacFactor();
 		SetStomac(player.Stomac / gameData.StomachMaxValue);
 	}
 
