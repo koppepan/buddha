@@ -13,7 +13,13 @@ public class SkillButton : MonoBehaviour {
 
 	float nowCoolTime;
 
+	public bool IsInvocation {
+		get;
+		set;
+	}
+
 	public Action OnButtonDown = () => { };
+	public Action OnCoolFinish = () => { };
 
 	void Awake()
 	{
@@ -27,18 +33,13 @@ public class SkillButton : MonoBehaviour {
 
 	public void OnButton()
 	{
-		if (GUIController.Instance.NowCool) {
-			return;
-		}
-		if (coolImage.enabled) {
+		if (coolImage.enabled || !IsInvocation) {
 			return;
 		}
 
 		OnButtonDown ();
 		coolImage.enabled = true;
 		nowCoolTime = 0;
-
-		GUIController.Instance.NowCool = true;
 
 		SoundManager.Instance.PlaySE (e_SeSound.Chin);
 	}
@@ -58,7 +59,7 @@ public class SkillButton : MonoBehaviour {
 			nowCoolTime = 0;
 			coolImage.fillAmount = 1;
 			coolImage.enabled = false;
-			GUIController.Instance.NowCool = false;
+			OnCoolFinish ();
 		}
 	}
 }

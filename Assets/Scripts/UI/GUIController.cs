@@ -6,19 +6,6 @@ using System.Collections.Generic;
 
 public class GUIController : MonoBehaviour
 {
-	public Action OnCoolTimeFinish = () => { };
-	private bool nowCool = false;
-	public bool NowCool
-	{
-		get { return nowCool; }
-		set{
-			nowCool = value;
-			if (!nowCool) {
-				OnCoolTimeFinish();
-			}
-		}
-	}
-
 	[SerializeField]
 	Text TimeCount;
 
@@ -38,6 +25,19 @@ public class GUIController : MonoBehaviour
 	public Action OnButtonDownTreaning = () => { };
 	public Action OnButtonDownPreaching = () => { };
 
+	public Action OnCoolFinish = () => { };
+
+	bool isInvacation = true;
+	public bool IsInvocation {
+		get { return isInvacation; }
+		set {
+			isInvacation = value;
+			stomacButton.IsInvocation = value;
+			treaningButton.IsInvocation = value;
+			preachingButton.IsInvocation = value;
+		}
+	}
+
 	const string CountText = "即身仏まで{0}日";
 
 	static GUIController instance;
@@ -52,14 +52,32 @@ public class GUIController : MonoBehaviour
 		instance = this;
 
 		stomacButton.OnButtonDown += () => {
+			IsInvocation = false;
 			OnButtonDownStomac();
 		};
 		treaningButton.OnButtonDown += () => {
+			IsInvocation = false;
 			OnButtonDownTreaning();
 		};
 		preachingButton.OnButtonDown += () => {
+			IsInvocation = false;
 			OnButtonDownPreaching();
 		};
+
+		stomacButton.OnCoolFinish += () => {
+			IsInvocation = true;
+			OnCoolFinish();
+		};
+		treaningButton.OnCoolFinish += () => {
+			IsInvocation = true;
+			OnCoolFinish();
+		};
+		preachingButton.OnCoolFinish += () => {
+			IsInvocation = true;
+			OnCoolFinish();
+		};
+
+		IsInvocation = true;
 	}
 
 	public void SetTimeCount(float now, float limit, int day)

@@ -33,7 +33,12 @@ public class MainSystem : MonoBehaviour {
 		instance = this;
 		existsInstance = true;
 		DontDestroyOnLoad(gameObject);
+		{
+			var textAsset = Resources.Load ("GameData") as TextAsset;
+			var data = MiniJSON.Json.Deserialize (textAsset.text) as Dictionary<string, object>;
 
+			gameData = new GameData (data);
+		}
 		{
 			var textAsset = Resources.Load ("BuddhistName") as TextAsset;
 			var data = MiniJSON.Json.Deserialize (textAsset.text) as Dictionary<string, object>;

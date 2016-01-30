@@ -21,15 +21,14 @@ public class GameController : MonoBehaviour
 	GameData gameData;
 	float timeCount;
 
-	public enum BuddhaState
+	public enum GameState
 	{
-		human = 0,
-		halfway,
-		buddha,
-		die
+		start,
+		game,
+		end
 	};
 
-	public BuddhaState BuddhaWay {
+	public GameState State {
 		get;
 		set;
 	}
@@ -38,52 +37,24 @@ public class GameController : MonoBehaviour
 		set;
 	}
 
+	float time = 0;
+
 	void Awake()
 	{
-		{
-			var textAsset = Resources.Load ("GameData") as TextAsset;
-			var data = MiniJSON.Json.Deserialize (textAsset.text) as Dictionary<string, object>;
-
-			gameData = new GameData (data);
-		}
-
-
 		Observable.Interval (TimeSpan.FromSeconds (8)).Subscribe (_ => {
 			SoundManager.Instance.PlaySE(e_SeSound.Goon);
 		}).AddTo(this.gameObject);
 		SoundManager.Instance.PlayBGM (e_BgmSound.Mokugyo);
 
 		timeCount = 0;
-		BuddhaWay = BuddhaState.human;
-		PlayerSetTexture ();
+		State = GameState.start;
+
+		gameData = MainSystem.Instance.gameData;
 	}
 
-	public void Start()
+	void Start()
 	{
-		player.SetData (gameData.StomachStartValue, gameData.HotokeStartValue, gameData.FaithStartValue,
-			gameData.StomachMaxValue, gameData.HotokeMaxValue, gameData.FaithMaxValue);
-		GUIController.Instance.SetCoolTime (gameData.StomacCoolTime, gameData.TrainingCoolTime, gameData.PreachingCoolTime);
-
-		SetStomac(player.Stomac / gameData.StomachMaxValue);
-		SetHotoke(player.Hotoke / gameData.GainHotokeValue);
-
-		GUIController.Instance.OnButtonDownStomac = () => {
-			player.Stomac += gameData.GainStomacValue;
-			SetStomac(player.Stomac / gameData.StomachMaxValue);
-		};
-		GUIController.Instance.OnButtonDownTreaning = () => {
-			player.Hotoke += gameData.GainHotokeValue;
-			player.Hide(true);
-			SetHotoke(player.Hotoke / gameData.HotokeMaxValue);
-		};
-		GUIController.Instance.OnButtonDownPreaching = () => {
-			player.Faith += gameData.GainFaithValue;
-			player.Hide(true);
-		};
-
-		GUIController.Instance.OnCoolTimeFinish = () => {
-			player.Hide(false);
-		};
+		GUIController.Instance.SetTimeCount (0, gameData.TimeLimit, gameData.Day);
 	}
 
 	void OnDestroy()
@@ -93,66 +64,36 @@ public class GameController : MonoBehaviour
 
 	void Update()
 	{
-		timeCount += Time.deltaTime;
-		GUIController.Instance.SetTimeCount (timeCount, gameData.TimeLimit, gameData.Day);
+		
 
-		if (player.Stomac < 0) {
-			BuddhaWay = BuddhaState.die;
-		}
-
-		switch (BuddhaWay) {
-		case BuddhaState.human:
-			if (timeCount > gameData.TimeLimit * gameData.HalfPercentage) {
-				BuddhaWay = BuddhaState.halfway;
-				PlayerSetTexture ();
+		switch (State) {
+		case GameState.start:
+			time += Time.deltaTime;
+			if (time > 1) {
+				State++;
 			}
 			break;
-		case BuddhaState.halfway:
-			if (timeCount > gameData.TimeLimit * gameData.BuddhaPercentage) {
-				BuddhaWay = BuddhaState.buddha;
-				PlayerSetTexture ();
+		case GameState.game:
+			timeCount += Time.deltaTime;
+			GUIController.Instance.SetTimeCount (timeCount, gameData.TimeLimit, gameData.Day);
+
+			player.TimeUpdate (timeCount);
+
+			if (player.nowType == Player.StateType.die) {
+				State++;
 			}
 			break;
-		case BuddhaState.buddha:
-			if (timeCount > gameData.TimeLimit) {
-				BuddhaWay = BuddhaState.die;
-				Debug.LogWarning ("Clear");
+		case GameState.end:
+			time -= Time.deltaTime;
+			if (time < 0) {
+				SceneManager.LoadScene ("result");
+
 			}
 			break;
-		case BuddhaState.die:
-			Debug.Log (CalcResult ());
-			SceneManager.LoadScene ("result");
-			break;
+
 		}
-
-		if (BuddhaWay == BuddhaState.die) {
-			return;
-		}
-
-		DecreaseUpdate ();
 	}
-
-	void PlayerSetTexture()
-	{
-		player.SetTexture ((int)BuddhaWay);
-	}
-
-	void DecreaseUpdate()
-	{
-		player.Stomac -= gameData.StomachMaxValue / gameData.StomachLostTime / 60f;
-		SetStomac(player.Stomac / gameData.StomachMaxValue);
-	}
-
-	void SetStomac(float val)
-	{
-		GUIController.Instance.SetStomachGauge (val);
-	}
-
-	void SetHotoke(float val)
-	{
-		GUIController.Instance.SetHotokeGauge (val);
-	}
-
+		
 	ResultType CalcResult()
 	{
 		if (timeCount < gameData.TimeLimit) {
@@ -167,6 +108,5 @@ public class GameController : MonoBehaviour
 		}
 
 		return ResultType.NormalDead;
-
 	}
 }

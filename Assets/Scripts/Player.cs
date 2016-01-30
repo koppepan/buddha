@@ -5,12 +5,24 @@ using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
 
+	public enum StateType
+	{
+		human = 0,
+		half,
+		end,
+		die,
+		fuhai,
+		karakara,
+		best
+	};
+
 	[SerializeField]
 	List<Sprite> buddaTexture = new List<Sprite> ();
 
 	[SerializeField]
 	Image buddaImage;
 
+	GameData data;
 	bool hide;
 
 	// 空腹
@@ -23,6 +35,7 @@ public class Player : MonoBehaviour {
 			if (stomac > stomacMax) {
 				stomac = stomacMax;
 			}
+			GUIController.Instance.SetStomachGauge (value / data.StomachMaxValue);
 		}
 	}
 
@@ -36,6 +49,7 @@ public class Player : MonoBehaviour {
 			if (hotoke > hotokeMax) {
 				hotoke = hotokeMax;
 			}
+			GUIController.Instance.SetHotokeGauge (value / data.HotokeMaxValue);
 		}
 	}
 
@@ -52,40 +66,106 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	void Awake()
-	{
-		SetTexture (0);
+	public StateType nowType {
+		get;
+		private set;
 	}
 
-	public void SetData(float stomac, float hotoke, float faith, float stomacMax, float hotokeMax, float faithMax)
+	void Start()
 	{
-		this.stomac = stomac;
-		this.hotoke = hotoke;
-		this.faith = faith;
+		data = MainSystem.Instance.gameData;
 
-		this.stomacMax = stomacMax;
-		this.hotokeMax = hotokeMax;
-		this.faithMax = faithMax;
+		nowType = StateType.human;
+		SetTexture (nowType);
+
+		SetData ();
+
+		GUIController.Instance.SetCoolTime (data.StomacCoolTime, data.TrainingCoolTime, data.PreachingCoolTime);
+
+		GUIController.Instance.OnButtonDownStomac = () => {
+			Stomac += data.GainStomacValue;
+		};
+		GUIController.Instance.OnButtonDownTreaning = () => {
+			Hotoke += data.GainHotokeValue;
+			hide = true;
+		};
+		GUIController.Instance.OnButtonDownPreaching = () => {
+			Faith += data.GainFaithValue;
+			hide = true;
+		};
+
+		GUIController.Instance.OnCoolFinish = () => {
+			hide = false;
+		};
 	}
 
-	public void SetTexture(int index)
+	private void SetData()
 	{
-		buddaImage.sprite = buddaTexture [index];
+		this.stomacMax = data.StomachMaxValue;
+		this.hotokeMax = data.HotokeMaxValue;
+		this.faithMax = data.FaithMaxValue;
+
+		this.Stomac = data.StomachStartValue;
+		this.Hotoke = data.HotokeStartValue;
+		this.Faith = data.FaithStartValue;
+	}
+
+	public void SetTexture(StateType index)
+	{
+		buddaImage.sprite = buddaTexture [(int)index];
 	}
 
 	void Update()
 	{
-		if (hide && buddaImage.color.a > 0) {
-			var col = buddaImage.color;
-			buddaImage.color = new Color (col.r, col.g, col.b, col.a - Time.deltaTime * 2);
-		} else if (!hide && buddaImage.color.a < 1) {
-			var col = buddaImage.color;
-			buddaImage.color = new Color (col.r, col.g, col.b, col.a + Time.deltaTime * 2);
+		if (hide && buddaImage.rectTransform.localPosition.x < 800) {
+			var pos = buddaImage.rectTransform.localPosition;
+			buddaImage.rectTransform.localPosition = new Vector3 (pos.x + Time.deltaTime * 2000, pos.y, pos.z);
+
+			//var col = buddaImage.color;
+			//buddaImage.color = new Color (col.r, col.g, col.b, col.a - Time.deltaTime * 2);
+		} else if (!hide && buddaImage.rectTransform.localPosition.x > 0) {
+			var pos = buddaImage.rectTransform.localPosition;
+			buddaImage.rectTransform.localPosition = new Vector3 (pos.x - Time.deltaTime * 2000, pos.y, pos.z);
+			if (buddaImage.rectTransform.localPosition.x < 0) {
+				buddaImage.rectTransform.localPosition = new Vector3 (0, pos.y, pos.z);
+			}
 		}
 	}
 
-	public void Hide(bool enable)
+	public void TimeUpdate(float nowTime)
 	{
-		hide = enable;
+		if (Stomac < 0) {
+			SetTexture (nowType = StateType.die);
+		} else {
+			DecreaseUpdate ();
+		}
+			
+		switch (nowType) {
+
+		case StateType.human:
+			if (nowTime > data.TimeLimit * data.HalfPercentage) {
+				SetTexture (nowType = StateType.half);
+			}
+			break;
+
+		case StateType.half:
+			if (nowTime > data.TimeLimit * data.BuddhaPercentage) {
+				SetTexture (nowType = StateType.end);
+			}
+			break;
+
+		case StateType.end:
+			if (nowTime > data.TimeLimit) {
+			}
+			break;
+		default:
+			return;
+		}
 	}
+
+	void DecreaseUpdate()
+	{
+		Stomac -= data.StomachMaxValue / data.StomachLostTime / 60f;
+	}
+
 }
