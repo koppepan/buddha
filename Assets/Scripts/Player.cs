@@ -1,7 +1,15 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Player : MonoBehaviour {
+
+	[SerializeField]
+	List<Sprite> buddaTexture = new List<Sprite> ();
+
+	[SerializeField]
+	Image buddaImage;
 
 	// 空腹
 	public float Hunger {
@@ -27,5 +35,14 @@ public class Player : MonoBehaviour {
 		set;
 	}
 
+	void Awake()
+	{
+		SetTexture (0);
+	}
+
+	public void SetTexture(int index)
+	{
+		buddaImage.sprite = buddaTexture [index];
+	}
 
 }

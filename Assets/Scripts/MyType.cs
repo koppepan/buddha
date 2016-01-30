@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -19,30 +20,23 @@ public static class MyType
 	}
 }
 
-public struct NoteData
+public struct GameData
 {
-	public float Radius;
-	public float Speed;
-	public string Message;
-	public NoteData(float Radius, float Speed, string Message)
+	public TimeSpan TimeLimit;
+	public float HalfPercentage;
+	public float BuddhaPercentage;
+
+	public GameData(float TimeLimit, float HalfPercentage, float BuddhaPercentage)
 	{
-		this.Radius = Radius;
-		this.Speed = Speed;
-		this.Message = Message;
+		this.TimeLimit = TimeSpan.FromSeconds(TimeLimit);
+		this.HalfPercentage = HalfPercentage;
+		this.BuddhaPercentage = BuddhaPercentage;
 	}
-	public NoteData(Dictionary<string, object> data)
+	public GameData(Dictionary<string, object> data)
 	{
-		Radius = MyType.ObjectToFloat (data ["Radius"]);
-		Speed = MyType.ObjectToFloat (data ["Speed"]);
-		Message = (string)data ["Message"];
-	}
-	public object Serialize()
-	{
-		var data = new Dictionary<string, object> ();
-		data ["Radius"] = Radius;
-		data ["Speed"] = Speed;
-		data ["Message"] = Message;
-		return data;
+		this.TimeLimit = TimeSpan.FromSeconds (MyType.ObjectToFloat (data ["TimeLimit"]));
+		this.HalfPercentage = MyType.ObjectToFloat (data ["HalfPercentage"]);
+		this.BuddhaPercentage = MyType.ObjectToFloat (data ["BuddhaPercentage"]);
 	}
 };
 
