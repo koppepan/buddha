@@ -8,6 +8,9 @@ public class Player : MonoBehaviour {
 	[SerializeField]
 	List<Sprite> buddaTexture = new List<Sprite> ();
 
+    [SerializeField]
+    AnimationCurve hotokeToStomacFactor = null;
+
 	[SerializeField]
 	Image buddaImage;
 
@@ -51,6 +54,11 @@ public class Player : MonoBehaviour {
 			}
 		}
 	}
+
+    public float GetDecreaseStomacFactor()
+    {
+        return hotokeToStomacFactor.Evaluate(Hotoke / hotokeMax) + 1.0f;
+    }
 
 	void Awake()
 	{
