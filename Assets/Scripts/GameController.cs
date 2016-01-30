@@ -48,10 +48,10 @@ public class GameController : MonoBehaviour
 		}
 
 
-		Observable.Interval (TimeSpan.FromSeconds (5)).Subscribe (_ => {
+		Observable.Interval (TimeSpan.FromSeconds (8)).Subscribe (_ => {
 			SoundManager.Instance.PlaySE(e_SeSound.Goon);
 		}).AddTo(this.gameObject);
-
+		SoundManager.Instance.PlayBGM (e_BgmSound.Mokugyo);
 
 		timeCount = 0;
 		BuddhaWay = BuddhaState.human;
@@ -84,6 +84,11 @@ public class GameController : MonoBehaviour
 		GUIController.Instance.OnCoolTimeFinish = () => {
 			player.Hide(false);
 		};
+	}
+
+	void OnDestroy()
+	{
+		SoundManager.Instance.StopBGM ();
 	}
 
 	void Update()
@@ -134,8 +139,7 @@ public class GameController : MonoBehaviour
 
 	void DecreaseUpdate()
 	{
-        print(player.GetDecreaseStomacFactor());
-        player.Stomac -= (gameData.StomachMaxValue / gameData.StomachLostTime / 60f) * player.GetDecreaseStomacFactor();
+		player.Stomac -= gameData.StomachMaxValue / gameData.StomachLostTime / 60f;
 		SetStomac(player.Stomac / gameData.StomachMaxValue);
 	}
 
