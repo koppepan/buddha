@@ -6,7 +6,8 @@ using System.Collections;
 public enum e_BgmSound
 {
 	Title = 0,
-	Ending
+	Ending,
+	Mokugyo
 };
 
 public enum e_SeSound

@@ -15,6 +15,8 @@ public class ResultController : MonoBehaviour {
 		SoundManager.Instance.PlayBGM (e_BgmSound.Ending);
 		
 		var instance = MainSystem.Instance;
+		if (instance == null)
+			return;
 
 		BuddhistName.text = string.Empty;
 		{
@@ -26,9 +28,10 @@ public class ResultController : MonoBehaviour {
 			BuddhistName.text += instance.buddhistNames.dougouList [index];
 		}
 		{
-			instance.PlayerName.Replace (" ", string.Empty);
-			instance.PlayerName.Replace("\n", string.Empty);
-			if (instance.PlayerName != string.Empty) {
+			if (!string.IsNullOrEmpty(instance.PlayerName)) {
+				instance.PlayerName.Replace (" ", string.Empty);
+				instance.PlayerName.Replace ("\n", string.Empty);
+
 				var index1 = Random.Range (0, instance.PlayerName.Length);
 				BuddhistName.text += instance.PlayerName [index1];
 				if (instance.PlayerName.Length > 2) {
