@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class ResultController : MonoBehaviour {
@@ -23,10 +24,16 @@ public class ResultController : MonoBehaviour {
 			BuddhistName.text += instance.buddhistNames.dougouList [index];
 		}
 		{
-			var index1 = Random.Range (0, instance.PlayerName.Length);
-			var index2 = Random.Range (0, instance.PlayerName.Length);
-			BuddhistName.text += instance.PlayerName [index1];
-			BuddhistName.text += instance.PlayerName [index2];
+			instance.PlayerName.Replace (" ", string.Empty);
+			instance.PlayerName.Replace("\n", string.Empty);
+			if (instance.PlayerName != string.Empty) {
+				var index1 = Random.Range (0, instance.PlayerName.Length);
+				BuddhistName.text += instance.PlayerName [index1];
+				if (instance.PlayerName.Length > 2) {
+					var index2 = Random.Range (0, instance.PlayerName.Length);
+					BuddhistName.text += instance.PlayerName [index2];
+				}
+			}
 		}
 		{
 			var index = Random.Range (0, instance.buddhistNames.igou_maleList.Count);
@@ -37,5 +44,9 @@ public class ResultController : MonoBehaviour {
 	void Update()
 	{
 		peka.rectTransform.Rotate (new Vector3 (0, 0, 1));
+
+		if (Input.anyKeyDown) {
+			SceneManager.LoadScene ("title");
+		}
 	}
 }
