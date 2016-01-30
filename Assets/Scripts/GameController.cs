@@ -48,6 +48,11 @@ public class GameController : MonoBehaviour
 		}
 
 
+		Observable.Interval (TimeSpan.FromSeconds (5)).Subscribe (_ => {
+			SoundManager.Instance.PlaySE(e_SeSound.Goon);
+		}).AddTo(this.gameObject);
+
+
 		timeCount = 0;
 		BuddhaWay = BuddhaState.human;
 		PlayerSetTexture ();

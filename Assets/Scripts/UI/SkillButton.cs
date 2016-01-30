@@ -39,6 +39,8 @@ public class SkillButton : MonoBehaviour {
 		nowCoolTime = 0;
 
 		GUIController.Instance.NowCool = true;
+
+		SoundManager.Instance.PlaySE (e_SeSound.Chin);
 	}
 
 	void Update()

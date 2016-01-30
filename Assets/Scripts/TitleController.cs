@@ -8,6 +8,17 @@ public class TitleController : MonoBehaviour
 	[SerializeField]
 	Text text;
 
+	void Start()
+	{
+		SoundManager.Instance.PlayBGM (e_BgmSound.Title);
+	}
+
+	void OnDestroy()
+	{
+		SoundManager.Instance.StopBGM ();
+		SoundManager.Instance.PlaySE (e_SeSound.Goon);
+	}
+
 	public void GotoSokusin()
 	{
 		SceneManager.LoadScene ("main");

@@ -12,6 +12,8 @@ public class ResultController : MonoBehaviour {
 
 	void Awake()
 	{
+		SoundManager.Instance.PlayBGM (e_BgmSound.Ending);
+		
 		var instance = MainSystem.Instance;
 
 		BuddhistName.text = string.Empty;
@@ -39,6 +41,11 @@ public class ResultController : MonoBehaviour {
 			var index = Random.Range (0, instance.buddhistNames.igou_maleList.Count);
 			BuddhistName.text += instance.buddhistNames.igou_maleList [index];
 		}
+	}
+
+	void OnDestroy()
+	{
+		SoundManager.Instance.StopBGM ();
 	}
 
 	void Update()
