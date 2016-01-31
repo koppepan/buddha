@@ -110,7 +110,7 @@ public class Player : MonoBehaviour {
 		this.Faith = data.FaithStartValue;
 	}
 
-	public void SetTexture(StateType index)
+	private void SetTexture(StateType index)
 	{
 		buddaImage.sprite = buddaTexture [(int)index];
 	}
@@ -153,9 +153,22 @@ public class Player : MonoBehaviour {
 
 		case StateType.end:
 			if (nowTime > data.TimeLimit) {
+				SetTexture (nowType = CalcType);
 			}
 			break;
 		}
+	}
+
+	StateType CalcType()
+	{
+		if (Stomac < 0) {
+			return StateType.die;
+		} else if (Hotoke > 30 && Hotoke < 90) {
+			return StateType.karakara;
+		} else if (Hotoke >= 90) {
+			return StateType.best;
+		}
+		return StateType.die;
 	}
 
 	void DecreaseUpdate()
