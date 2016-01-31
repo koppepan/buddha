@@ -93,7 +93,7 @@ public class Player : MonoBehaviour {
 			hide = true;
 		};
 		GUIController.Instance.OnButtonDownPreaching = () => {
-			Faith += data.GainFaithValue;
+			Faith += data.GainFaithValue * (1 + Hotoke * 0.01f);
 			hide = true;
 		};
 
