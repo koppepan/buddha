@@ -22,6 +22,9 @@ public class Player : MonoBehaviour {
 	[SerializeField]
 	Image buddaImage;
 
+	[SerializeField]
+	AnimationCurve hotokeToStomacFactor = null;
+
 	GameData data;
 	bool hide;
 
@@ -173,7 +176,7 @@ public class Player : MonoBehaviour {
 
 	void DecreaseUpdate()
 	{
-		Stomac -= data.StomachMaxValue / data.StomachLostTime / 60f;
+		Stomac -= (data.StomachMaxValue / data.StomachLostTime / 60f) * (hotokeToStomacFactor.Evaluate((Hotoke / hotokeMax)) + 1.0f);
 	}
 
 }
