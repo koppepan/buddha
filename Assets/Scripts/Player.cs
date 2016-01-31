@@ -153,7 +153,7 @@ public class Player : MonoBehaviour {
 
 		case StateType.end:
 			if (nowTime > data.TimeLimit) {
-				SetTexture (nowType = CalcType);
+				SetTexture (nowType = CalcType ());
 			}
 			break;
 		}
