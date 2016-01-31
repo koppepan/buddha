@@ -37,14 +37,17 @@ public class ResultController : MonoBehaviour {
 		}
 		{
 			if (!string.IsNullOrEmpty(instance.PlayerName)) {
-				instance.PlayerName.Replace (" ", string.Empty);
-				instance.PlayerName.Replace ("\n", string.Empty);
+				instance.PlayerName = instance.PlayerName.Replace (" ", string.Empty);
+				instance.PlayerName = instance.PlayerName.Replace ("\n", string.Empty);
 
-				var index1 = Random.Range (0, instance.PlayerName.Length);
-				BuddhistName.text += instance.PlayerName [index1];
-				if (instance.PlayerName.Length > 2) {
-					var index2 = Random.Range (0, instance.PlayerName.Length);
-					BuddhistName.text += instance.PlayerName [index2];
+				if (instance.PlayerName.Length >= 2) {
+					for (int i = 0; i < 2; i++) {
+						var index = Random.Range (0, instance.PlayerName.Length);
+						BuddhistName.text += instance.PlayerName [index];
+					}
+					BuddhistName.text += instance.PlayerName.Substring (0, 2);
+				} else {
+					BuddhistName.text += instance.PlayerName;
 				}
 			}
 		}
@@ -55,7 +58,7 @@ public class ResultController : MonoBehaviour {
 
 		var finishType = MainSystem.Instance.FinishState;
 		player.SetTexture (finishType);
-		peka.enabled = finishType == Player.StateType.best;
+		peka.enabled = (finishType == Player.StateType.best) || (finishType == Player.StateType.die);
 		SetBgSprite (MainSystem.Instance.FinishFaithValue);
 
 		Debug.Log (finishType);
