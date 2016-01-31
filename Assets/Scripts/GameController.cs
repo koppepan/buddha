@@ -79,7 +79,7 @@ public class GameController : MonoBehaviour
 
 			player.TimeUpdate (timeCount);
 
-			if (player.nowType >= Player.StateType.end) {
+			if (player.nowType > Player.StateType.end) {
 				State++;
 			}
 			break;

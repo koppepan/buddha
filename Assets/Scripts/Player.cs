@@ -119,10 +119,10 @@ public class Player : MonoBehaviour {
 	{
 		if (hide && buddaImage.rectTransform.localPosition.x < 800) {
 			var pos = buddaImage.rectTransform.localPosition;
-			buddaImage.rectTransform.localPosition = new Vector3 (pos.x + Time.deltaTime * 2000, pos.y, pos.z);
+			buddaImage.rectTransform.localPosition = new Vector3 (pos.x + Time.deltaTime * 3000, pos.y, pos.z);
 		} else if (!hide && buddaImage.rectTransform.localPosition.x > 0) {
 			var pos = buddaImage.rectTransform.localPosition;
-			buddaImage.rectTransform.localPosition = new Vector3 (pos.x - Time.deltaTime * 2000, pos.y, pos.z);
+			buddaImage.rectTransform.localPosition = new Vector3 (pos.x - Time.deltaTime * 3000, pos.y, pos.z);
 			if (buddaImage.rectTransform.localPosition.x < 0) {
 				buddaImage.rectTransform.localPosition = new Vector3 (0, pos.y, pos.z);
 			}
@@ -163,7 +163,7 @@ public class Player : MonoBehaviour {
 	{
 		if (Stomac < 0) {
 			return StateType.die;
-		} else if (Hotoke > 30 && Hotoke < 90) {
+		} else if (Hotoke >= 30 && Hotoke < 90) {
 			return StateType.karakara;
 		} else if (Hotoke >= 90) {
 			return StateType.best;
