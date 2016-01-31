@@ -135,7 +135,8 @@ public class Player : MonoBehaviour {
 	public void TimeUpdate(float nowTime)
 	{
 		if (Stomac < 0) {
-			SetTexture (nowType = StateType.die);
+			nowType = CalcType ();
+			SetTexture (nowType);
 		} else {
 			DecreaseUpdate ();
 		}
@@ -165,8 +166,8 @@ public class Player : MonoBehaviour {
 	StateType CalcType()
 	{
 		if (Stomac < 0) {
-			return StateType.die;
-		} else if (Hotoke >= 30 && Hotoke < 90) {
+			return StateType.fuhai;
+		} else if (Hotoke >= 50 && Hotoke < 90) {
 			return StateType.karakara;
 		} else if (Hotoke >= 90) {
 			return StateType.best;
