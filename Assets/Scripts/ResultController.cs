@@ -57,6 +57,9 @@ public class ResultController : MonoBehaviour {
 		player.SetTexture (finishType);
 		peka.enabled = finishType == Player.StateType.best;
 		SetBgSprite (MainSystem.Instance.FinishFaithValue);
+
+		Debug.Log (finishType);
+		Debug.Log (MainSystem.Instance.FinishFaithValue);
 	}
 
 	void SetBgSprite(float faith)
