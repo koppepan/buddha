@@ -55,6 +55,7 @@ public class GameController : MonoBehaviour
 	void Start()
 	{
 		GUIController.Instance.SetTimeCount (0, gameData.TimeLimit, gameData.Day);
+		GUIController.Instance.IsInvocation = false;
 	}
 
 	void OnDestroy()
@@ -71,6 +72,7 @@ public class GameController : MonoBehaviour
 			time += Time.deltaTime;
 			if (time > 1) {
 				State++;
+				GUIController.Instance.IsInvocation = true;
 			}
 			break;
 		case GameState.game:
@@ -81,6 +83,7 @@ public class GameController : MonoBehaviour
 
 			if (player.nowType > Player.StateType.end) {
 				State++;
+				GUIController.Instance.IsInvocation = false;
 			}
 			break;
 		case GameState.end:
