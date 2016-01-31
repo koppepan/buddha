@@ -1,17 +1,15 @@
 {
-    "TimeLimit": 90,
+    "TimeLimit": 75,
     "HalfPercentage": 0.5,
     "BuddhaPercentage": 0.9,
     
     "Day": 3650,
     
     "StomacMaxValue": 100,
-    "WaterMaxValue": 100,
     "HotokeMaxValue": 100,
     "FaithMaxValue": 100,
     
     "StomacStartValue": 100,
-    "WaterStartValue": 100,
     "HotokeStartValue": 0,
     "FaithStartValue": 0,
     

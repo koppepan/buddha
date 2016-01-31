@@ -18,6 +18,11 @@ public class ResultController : MonoBehaviour {
 	[SerializeField]
 	ResultPlayer player;
 
+	[SerializeField]
+	Image infoBoard;
+	[SerializeField]
+	Text infoText;
+
 	void Awake()
 	{
 		SoundManager.Instance.PlayBGM (e_BgmSound.Ending);
@@ -34,6 +39,10 @@ public class ResultController : MonoBehaviour {
 		{
 			var index = Random.Range (0, instance.buddhistNames.dougouList.Count);
 			BuddhistName.text += instance.buddhistNames.dougouList [index];
+		}
+		{
+			var index = Random.Range (0, instance.sokumibotokeInfo.sokumibotoke.Count);
+			infoText.text = instance.sokumibotokeInfo.sokumibotoke [index];
 		}
 		{
 			if (!string.IsNullOrEmpty(instance.PlayerName)) {
@@ -86,8 +95,12 @@ public class ResultController : MonoBehaviour {
 	{
 		peka.rectTransform.Rotate (new Vector3 (0, 0, 1));
 
-		if (Input.anyKeyDown) {
-			SceneManager.LoadScene ("title");
+		if (infoBoard.rectTransform.localPosition.y < -220) {
+			infoBoard.transform.localPosition += Vector3.up * Time.deltaTime * 100;
+		} else {
+			if (Input.anyKeyDown) {
+				SceneManager.LoadScene ("title");
+			}
 		}
 	}
 }

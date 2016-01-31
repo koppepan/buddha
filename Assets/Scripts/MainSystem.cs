@@ -17,6 +17,11 @@ public class MainSystem : MonoBehaviour {
 		set;
 	}
 
+	public Sokumibotoke sokumibotokeInfo {
+		get;
+		set;
+	}
+
 	public string PlayerName {
 		get;
 		set;
@@ -54,7 +59,11 @@ public class MainSystem : MonoBehaviour {
 			var data = MiniJSON.Json.Deserialize (textAsset.text) as Dictionary<string, object>;
 			MainSystem.Instance.buddhistNames = new BuddhistNames (data);
 		}
-
+		{
+			var textAsset = Resources.Load ("Sokumibotoke") as TextAsset;
+			var data = MiniJSON.Json.Deserialize (textAsset.text) as Dictionary<string, object>;
+			MainSystem.Instance.sokumibotokeInfo = new Sokumibotoke (data);
+		}
 	}
 
 	public GameData gameData {

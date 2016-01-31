@@ -91,3 +91,13 @@ public struct BuddhistNames
 		igou_femaleList = (data ["igou_female"] as List<object>).Select (x => (string)x).ToList ();
 	}
 };
+
+public struct Sokumibotoke
+{
+	public List<string> sokumibotoke;
+
+	public Sokumibotoke(Dictionary<string, object> data)
+	{
+		sokumibotoke = (data ["sokumibotoke"] as List<object>).Select (x => (string)x).ToList ();
+	}
+};
