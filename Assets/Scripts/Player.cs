@@ -120,9 +120,6 @@ public class Player : MonoBehaviour {
 		if (hide && buddaImage.rectTransform.localPosition.x < 800) {
 			var pos = buddaImage.rectTransform.localPosition;
 			buddaImage.rectTransform.localPosition = new Vector3 (pos.x + Time.deltaTime * 2000, pos.y, pos.z);
-
-			//var col = buddaImage.color;
-			//buddaImage.color = new Color (col.r, col.g, col.b, col.a - Time.deltaTime * 2);
 		} else if (!hide && buddaImage.rectTransform.localPosition.x > 0) {
 			var pos = buddaImage.rectTransform.localPosition;
 			buddaImage.rectTransform.localPosition = new Vector3 (pos.x - Time.deltaTime * 2000, pos.y, pos.z);
@@ -158,8 +155,6 @@ public class Player : MonoBehaviour {
 			if (nowTime > data.TimeLimit) {
 			}
 			break;
-		default:
-			return;
 		}
 	}
 
