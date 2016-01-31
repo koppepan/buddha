@@ -86,7 +86,7 @@ public class Player : MonoBehaviour {
 		GUIController.Instance.SetCoolTime (data.StomacCoolTime, data.TrainingCoolTime, data.PreachingCoolTime);
 
 		GUIController.Instance.OnButtonDownStomac = () => {
-			Stomac += data.GainStomacValue;
+			Stomac += data.GainStomacValue * (1 - Hotoke * 0.005f);
 		};
 		GUIController.Instance.OnButtonDownTreaning = () => {
 			Hotoke += data.GainHotokeValue;

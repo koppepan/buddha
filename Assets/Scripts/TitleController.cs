@@ -13,7 +13,7 @@ public class TitleController : MonoBehaviour
 		SoundManager.Instance.PlayBGM (e_BgmSound.Title);
 	}
 
-	void OnDestroy()
+	void OnDisable()
 	{
 		SoundManager.Instance.StopBGM ();
 		SoundManager.Instance.PlaySE (e_SeSound.Goon);
@@ -26,11 +26,17 @@ public class TitleController : MonoBehaviour
 
 	void Update()
 	{
-		text.color = new Color (0, 0, 0, 1 - Mathf.PingPong (Time.time, 0.5f));
+		text.color = new Color (1, 1, 1, 1 - Mathf.PingPong (Time.time, 0.5f));
 	}
 
 	public void SetName(string name)
 	{
+		if (!string.IsNullOrEmpty (name)) {
+			name = name.Replace (" ", string.Empty);
+			name = name.Replace ("\n", string.Empty);
+		} else {
+			name = string.Empty;
+		}
 		MainSystem.Instance.PlayerName = name;
 	}
 
