@@ -28,6 +28,11 @@ public class Player : MonoBehaviour {
 	GameData data;
 	bool hide;
 
+	public Vector3 position
+	{
+		get { return buddaImage.rectTransform.localPosition; }
+	}
+
 	// 空腹
 	private float stomac;
 	private float stomacMax;
