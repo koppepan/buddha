@@ -22,6 +22,16 @@ public class MainSystem : MonoBehaviour {
 		set;
 	}
 
+	public Player.StateType FinishState {
+		get;
+		set;
+	}
+
+	public float FinishFaithValue {
+		get;
+		set;
+	}
+
 	void Awake () {
 		// インスタンスが存在するなら破棄する
 		if (existsInstance)

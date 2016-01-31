@@ -10,6 +10,14 @@ public class ResultController : MonoBehaviour {
 	[SerializeField]
 	Image peka;
 
+	[SerializeField]
+	Image bgImage;
+	[SerializeField]
+	Sprite[] sprits;
+
+	[SerializeField]
+	ResultPlayer player;
+
 	void Awake()
 	{
 		SoundManager.Instance.PlayBGM (e_BgmSound.Ending);
@@ -44,6 +52,23 @@ public class ResultController : MonoBehaviour {
 			var index = Random.Range (0, instance.buddhistNames.igou_maleList.Count);
 			BuddhistName.text += instance.buddhistNames.igou_maleList [index];
 		}
+
+		var finishType = MainSystem.Instance.FinishState;
+		player.SetTexture (finishType);
+		peka.enabled = finishType == Player.StateType.best;
+		SetBgSprite (MainSystem.Instance.FinishFaithValue);
+	}
+
+	void SetBgSprite(float faith)
+	{
+		int index = 0;
+		if (faith > 30 && faith < 70) {
+			index = 1;
+		} else if (faith >= 70) {
+			index = 2;
+		}
+
+		bgImage.sprite = sprits [index];
 	}
 
 	void OnDestroy()

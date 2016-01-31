@@ -89,8 +89,9 @@ public class GameController : MonoBehaviour
 		case GameState.end:
 			time -= Time.deltaTime;
 			if (time < 0) {
+				MainSystem.Instance.FinishState = player.nowType;
+				MainSystem.Instance.FinishFaithValue = player.Faith;
 				SceneManager.LoadScene ("result");
-
 			}
 			break;
 
